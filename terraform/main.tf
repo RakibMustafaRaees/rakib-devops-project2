@@ -21,8 +21,7 @@ resource "aws_subnet" "main" {
 }
 
 resource "aws_instance" "example" {
-  ami           = "ami-06047c1f0de592e22O
-"  # Replace with a valid AMI ID for your region
+  ami           = "ami-06047c1f0de592e22O"  # Replace with a valid AMI ID for your region
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.main.id
 
