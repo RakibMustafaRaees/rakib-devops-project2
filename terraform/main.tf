@@ -31,11 +31,12 @@ resource "aws_instance" "example" {
 
   provisioner "local-exec" {
     command = <<EOT
+      sudo mkdir -p /etc/ansible  # Ensure the directory exists
       sudo apt-get update -y
       sudo apt-get install -y ansible
       echo "[example]" > /etc/ansible/hosts
-      echo "$(aws_instance.example.public_ip)" >> /etc/ansible/hosts
-      ansible-playbook /path/to/your/playbook.yml
+      echo "${self.public_ip}" >> /etc/ansible/hosts  # Correctly reference the public IP
+      ansible-playbook ${path.module}/ansible/playbook.yml  # Correct path to the playbook
     EOT
   }
 }
