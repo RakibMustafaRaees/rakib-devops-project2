@@ -28,5 +28,16 @@ resource "aws_instance" "example" {
   tags = {
     Name = "ExampleInstance"
   }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      sudo apt-get update -y
+      sudo apt-get install -y ansible
+      echo "[example]" > /etc/ansible/hosts
+      echo "$(aws_instance.example.public_ip)" >> /etc/ansible/hosts
+      ansible-playbook /path/to/your/playbook.yml
+    EOT
+  }
 }
+
 
