@@ -29,6 +29,11 @@ resource "aws_instance" "example" {
     Name = "ExampleInstance"
   }
 
+  provisioner "file" {
+    source      = "${path.module}/ansible/playbook.yml"
+    destination = "/home/ubuntu/ansible/playbook.yml"
+  }
+
   provisioner "local-exec" {
     command = <<EOT
       sudo mkdir -p /etc/ansible  # Ensure the directory exists
@@ -36,7 +41,7 @@ resource "aws_instance" "example" {
       sudo apt-get install -y ansible
       echo "[example]" > /etc/ansible/hosts
       echo "${self.public_ip}" >> /etc/ansible/hosts  # Correctly reference the public IP
-      ansible-playbook ~/Desktop/rakib-devops-project2/ansible/playbook.yml  # Correct path to the playbook
+      ansible-playbook /home/ubuntu/ansible/playbook.yml  # Correct path to the playbook
     EOT
   }
 }
