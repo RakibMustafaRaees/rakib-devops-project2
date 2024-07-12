@@ -38,7 +38,7 @@ resource "aws_instance" "example" {
     connection {
       type     = "ssh"
       user     = "ubuntu"
-      private_key = filebase64decode(var.private_key)  # Path to your private key
+      private_key = base64decode(var.private_key)  # Path to your private key
       host     = self.public_ip
     }
   }
