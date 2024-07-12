@@ -30,7 +30,9 @@ jobs:
         working-directory: ./terraform
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: |
+		terraform plan -out=tfplan -input=false
+		cat tfplan
         working-directory: ./terraform
 
       - name: Terraform Apply
