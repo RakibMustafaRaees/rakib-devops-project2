@@ -1,2 +1,6 @@
 # Exclude all .env files
 .env
+terraform/.terraform/
+.terraform/
+*.tfstate
+*.tfstate.backup
