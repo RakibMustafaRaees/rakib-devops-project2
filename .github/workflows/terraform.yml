@@ -55,5 +55,5 @@ jobs:
         working-directory: ./terraform
 
       - name: Run Ansible Playbook
-        run: ansible-playbook .ansible/playbook.yml
-	working-directory: ./terraform
+        run: ansible-playbook ansible/playbook.yml
+        working-directory: ./terraform
