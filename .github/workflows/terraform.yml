@@ -25,6 +25,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # Correct AWS region code
 
+      - name: Set Terraform Environment Variables
+        run: echo "private_key=${{ secrets.PRIVATE_KEY }}" > terraform.tfvars
+
       - name: Terraform Init
         run: terraform init
         working-directory: ./terraform
