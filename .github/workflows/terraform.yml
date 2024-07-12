@@ -31,8 +31,8 @@ jobs:
 
       - name: Terraform Plan
         run: |
-		terraform plan -out=tfplan -input=false
-		cat tfplan
+	  terraform plan -out=tfplan -input=false
+          cat tfplan
         working-directory: ./terraform
 
       - name: Terraform Apply
