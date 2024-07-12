@@ -36,7 +36,7 @@ resource "aws_instance" "example" {
       sudo apt-get install -y ansible
       echo "[example]" > /etc/ansible/hosts
       echo "${self.public_ip}" >> /etc/ansible/hosts  # Correctly reference the public IP
-      ansible-playbook ${path.module}/ansible/playbook.yml  # Correct path to the playbook
+      ansible-playbook ~/Desktop/rakib-devops-project2/ansible/playbook.yml  # Correct path to the playbook
     EOT
   }
 }
