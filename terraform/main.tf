@@ -38,7 +38,7 @@ resource "aws_instance" "example" {
     connection {
       type     = "ssh"
       user     = "ubuntu"
-      private_key = file("~/.ssh/id_rsa")  # Path to your private key
+      private_key = file("/home/tk-lpt-261/.ssh/id_rsa")  # Path to your private key
       host     = self.public_ip
     }
   }
