@@ -24,6 +24,8 @@ resource "aws_instance" "example" {
   ami           = "ami-0103953a003440c37"  # Replace with a valid AMI ID for your region
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.main.id
+  
+  key_name = "rakib-devops-key"  # Replace with the name of your key pair
 
   tags = {
     Name = "ExampleInstance"
@@ -32,6 +34,13 @@ resource "aws_instance" "example" {
   provisioner "file" {
     source      = "${path.module}/ansible/playbook.yml"
     destination = "/home/ubuntu/ansible/playbook.yml"
+    
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      private_key = file("/home/tk-lpt-261/.ssh/id_rsa")  # Path to your private key
+      host     = self.public_ip
+    }
   }
 
   provisioner "local-exec" {
