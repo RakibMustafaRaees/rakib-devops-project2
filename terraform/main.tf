@@ -24,6 +24,7 @@ resource "aws_instance" "example" {
   ami           = "ami-0103953a003440c37"  # Replace with a valid AMI ID for your region
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.main.id
+  associate_public_ip_address = true  # Ensure the instance gets a public IP
   
   key_name = "rakib-devops-key"  # Replace with the name of your key pair
 
