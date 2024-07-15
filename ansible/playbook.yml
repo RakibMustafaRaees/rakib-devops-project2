@@ -18,3 +18,43 @@
         name: apache2
         state: started
         enabled: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Install Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m`
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+
+    - name: Ensure Docker service is started
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add user to Docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+    - name: Create docker-compose.yml
+      copy:
+        content: |
+          version: '3'
+          services:
+            web:
+              image: nginx:alpine
+              ports:
+                - "80:80"
+        dest: /home/ubuntu/docker-compose.yml
+        mode: '0644'
+
+    - name: Run Docker Compose
+      command: docker-compose up -d
+      args:
+        chdir: /home/ubuntu/
