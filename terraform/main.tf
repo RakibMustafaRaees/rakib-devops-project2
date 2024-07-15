@@ -32,26 +32,33 @@ resource "aws_instance" "example" {
     Name = "ExampleInstance"
   }
 
-  provisioner "file" {
-    source      = "${path.module}/ansible/playbook.yml"
-    destination = "/home/ubuntu/ansible/playbook.yml"
+#  provisioner "file" {
+#    source      = "${path.module}/ansible/playbook.yml"
+#    destination = "/home/ubuntu/ansible/playbook.yml"
     
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = base64decode(var.private_key)  # Path to your private key
-      host     = self.public_ip
-    }
-  }
+#    connection {
+#      type     = "ssh"
+#      user     = "ubuntu"
+#      private_key = base64decode(var.private_key)  # Path to your private key
+#      host     = self.public_ip
+#    }
+#  }
 
   provisioner "local-exec" {
+    environment = {
+      ANSIBLE_HOST_KEY_CHECKING = "False"
+    }
     command = <<EOT
-      sudo mkdir -p /etc/ansible  # Ensure the directory exists
-      sudo apt-get update -y
-      sudo apt-get install -y ansible
-      echo "[example]" > /etc/ansible/hosts
-      echo "${self.public_ip}" >> /etc/ansible/hosts  # Correctly reference the public IP
-      ansible-playbook /home/ubuntu/ansible/playbook.yml  # Correct path to the playbook
+#     sudo mkdir -p /etc/ansible  # Ensure the directory exists
+#     sudo apt-get update -y
+#     sudo apt-get install -y ansible
+#     echo "[example]" > /etc/ansible/hosts
+#     echo "${self.public_ip}" >> /etc/ansible/hosts  # Correctly reference the public IP
+#     ansible-playbook /home/ubuntu/ansible/playbook.yml  # Correct path to the playbook
+      sleep 60  # Adding a delay to allow the instance to initialize
+
+      ansible-playbook -i '${self.public_ip},' --private-key ~/.ssh/id_rsa -u ubuntu ~/Desktop/rakib-devops-project2/ansible/playbook.yml
+
     EOT
   }
 }
